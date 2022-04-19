@@ -18,8 +18,21 @@ services:
     build:
       context: ../BackendApp/CryNotes.Api
       target: final
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+#      - DOTNET_USE_POLLING_FILE_WATCHER=1
     depends_on: 
       - db
+    ports:
+      - 5000:5000
+ 
+  proxy:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
 
 volumes:
   db-data: {}
